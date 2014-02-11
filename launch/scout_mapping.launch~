@@ -1,0 +1,28 @@
+<launch>
+   
+    <param name="hokuyo_node/calibrate_time" value="false"/>
+    <param name="hokuyo_node/port" value="/dev/ttyACM0"/>
+    <param name="hokuyo_node/skip" value="1"/>
+    <param name="hokuyo_node/intensity" value="false"/>
+    <param name="hokuyo_node/min_ang" value="-2.2689"/>
+    <param name="hokuyo_node/max_ang" value="2.2689"/>
+
+
+    <node pkg="hokuyo_node" type="hokuyo_node" name="hokuyo_laser"/>
+
+
+    <node pkg="tf" type="static_transform_publisher" name="link1" args="0.1526 0 0.2408 0 0 0 base_link laser 100" />
+
+    
+    <node pkg="sa_project" type="Encoder2TF-V2.py" name="enc"/>
+    
+    
+    <include file="$(find sa_project)/launch/gmapping.launch" />
+    
+    <!--
+    <node pkg="gmapping" type="slam_gmapping" name="gmapping" args="scan:=scan">
+    	  <param name="map_update_interval" value="1.5"/>
+	  <param name="particles" value="50"/>
+    </node>
+    -->
+</launch>

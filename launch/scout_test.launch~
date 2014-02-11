@@ -1,0 +1,43 @@
+<launch>
+    <!--
+    <param name="hokuyo_node/calibrate_time" value="false"/>
+    <param name="hokuyo_node/port" value="/dev/ttyACM0"/>
+    <param name="hokuyo_node/skip" value="1"/>
+    <param name="hokuyo_node/intensity" value="false"/>
+    <param name="hokuyo_node/min_ang" value="-2.2689"/>
+    <param name="hokuyo_node/max_ang" value="2.2689"/>
+
+
+    <node pkg="hokuyo_node" type="hokuyo_node" name="hokuyo_laser"/>
+    -->
+
+    <node pkg="tf" type="static_transform_publisher" name="link1" args="0.1526 0 0.2408 0 0 0 base_link laser 100" />
+
+    
+    <node pkg="sa_project" type="Encoder2TF-V2.py" name="enc"/>
+    
+    
+    <node pkg="sa_project" type="send_vel.py" name="send_velocity" output="screen" />
+    
+    <!--    
+    <node pkg="gmapping" type="slam_gmapping" name="gmapping" args="scan:=scan">
+    	  <param name="map_update_interval" value="1.5"/>
+	  <param name="particles" value="50"/>
+    </node>
+    -->
+    
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find sa_project)/world/sala_map.yaml" />
+    
+    
+    <include file="$(find sa_project)/launch/amcl.launch" />
+    
+    
+    <node pkg="move_base" type="move_base" name="move_base" respawn="false" output="screen" >
+    	  <rosparam file="$(find sa_project)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+	  <rosparam file="$(find sa_project)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+	  <rosparam file="$(find sa_project)/params/local_costmap_params.yaml" command="load" />
+	  <rosparam file="$(find sa_project)/params/global_costmap_params.yaml" command="load" />
+	  <rosparam file="$(find sa_project)/params/base_local_planner_params.yaml" command="load" />
+    </node>	  
+    
+</launch>

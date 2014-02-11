@@ -1,0 +1,8 @@
+<launch>
+    
+    <include file="$(find thesis)/launch/gmapping.launch" />
+    
+    
+    <node pkg="thesis" type="get_pose.py" name="posture_publisher" />
+    
+</launch>

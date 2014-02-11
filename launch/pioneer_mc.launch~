@@ -1,0 +1,16 @@
+<launch>
+    
+    <node pkg="thesis" type="get_pose.py" name="posture_publisher" />
+    
+    
+    <node pkg="map_server" type="map_server" name="map_server" args="$(find thesis)/world/map_8floor.yaml" />
+
+    
+    <include file="$(find thesis)/launch/amcl_sa.launch" />
+    
+    
+    <include file="$(find thesis)/launch/navigation_pioneer.launch" />
+    
+    <node pkg="rviz" type="rviz" name="rviz" output="screen"/>
+    
+</launch>
