@@ -1,0 +1,19 @@
+obstacle_range: 2.5
+raytrace_range: 3.0
+inflation_radius: 0.8
+#min_obstacle_height: -2.0
+inscribed_radius: 0.5
+circumscribed_radius: 0.65
+
+cost_scaling_factor: 15.0
+lethal_cost_threshold: 100
+
+#---(in meters)---
+footprint: [ [0.325, 0.275], [-0.325, 0.275], [-0.325, -0.275], [0.325, -0.275] ]
+
+transform_tolerance: 5.0
+map_type: costmap
+
+observation_sources: laser_scan_sensor
+laser_scan_sensor: {sensor_frame: laser, data_type: LaserScan, topic: /scan, marking: true, clearing: true, expected_update_rate: 0.5}
+#external_point_clouds: {sensor_frame: map, data_type: PointCloud, topic: external_point_clouds, marking: true, clearing: false, obstacle_range: 200}
