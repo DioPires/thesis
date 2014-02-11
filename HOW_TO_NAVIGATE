@@ -1,0 +1,10 @@
+In the pioneer:
+  roslaunch maiss_nav robot.launch
+  
+In the pc:
+  ROS_MASTER_URI=http://192.168.1.2:11311
+  roslaunch thesis pioneer.launch
+  
+To see everything:
+  ROS_MASTER_URI=http://192.168.1.2:11311
+  rosrun rviz rviz
