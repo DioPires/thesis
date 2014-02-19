@@ -1,7 +1,0 @@
-<launch>
-
-  <node pkg="thesis" type="send_positions_mctests.py" name="send_positions_mctests"/>
-  
-  <node pkg="thesis" type="write_msgs_to_files.py" name="write_msgs_to_files"/>
-
-</launch>
