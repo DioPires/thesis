@@ -14,22 +14,19 @@ import sound_play.msg
 
 flag_ = "False"
 
-f_amcl_pose_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/amcl_pose.txt', 'a')
-f_particlecloud_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/particlecloud.txt', 'a')
-f_scan_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/scan.txt', 'a')
-f_pose_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/pose.txt', 'a')
-f_cmd_vel_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/cmd_vel.txt', 'a')
-f_path_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/path.txt', 'a')
+f_amcl_pose_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/navigation/amcl_pose.txt', 'a')
+f_particlecloud_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/navigation/particlecloud.txt', 'a')
+f_scan_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/navigation/scan.txt', 'a')
+f_pose_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/navigation/pose.txt', 'a')
+f_cmd_vel_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/navigation/cmd_vel.txt', 'a')
+f_path_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/navigation/path.txt', 'a')
 
 
 def write2files(msg):
   global flag_
   flag_ = str(msg)
   
-  print flag_
-  
   if "Shutdown" in flag_:
-    f_action_result.close()
     f_amcl_pose_.close()
     f_particlecloud_.close()
     f_scan_.close()
@@ -40,31 +37,37 @@ def write2files(msg):
 
 def write_amclpose_to_file(msg):
     if "True" in flag_:
+	f_amcl_pose_.seek(-1, 2)
 	s = str(msg) + '\n\n'
 	f_amcl_pose_.write(s)
     
 def write_particlecloud_to_file(msg):
     if "True" in flag_:
+	f_particlecloud_.seek(-1, 2)
 	s = str(msg) + '\n\n'
 	f_particlecloud_.write(s)
 
 def write_scan_to_file(msg):
     if "True" in flag_:
+	f_scan_.seek(-1, 2)
 	s = str(msg) + '\n\n'
 	f_scan_.write(s)
 
 def write_pose_to_file(msg):
     if "True" in flag_:
+	f_pose_.seek(-1, 2)
 	s = str(msg) + '\n\n'
 	f_pose_.write(s)
 
 def write_cmd_vel_to_file(msg):
     if "True" in flag_:
+	f_cmd_vel_.seek(-1, 2)
 	s = str(msg) + '\n\n'
 	f_cmd_vel_.write(s)  
   
 def write_path_to_file(msg):
     if "True" in flag_:
+	f_path_.seek(-1, 2)
 	s = str(msg) + '\n\n'
 	f_path_.write(s)
 
