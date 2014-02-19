@@ -12,7 +12,7 @@ from sensor_msgs.msg import *
 from nav_msgs.msg import *
 from visualization_msgs.msg import *
 
-
+flag_ = False
 M_ = 0
 f_tag_detection_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/RFID/tag_detection.txt', 'a')
 
@@ -90,9 +90,11 @@ def check_if_RFID_tag_is_detected(msg):
   for k in range(0, len(M_[0])):
     d = math.sqrt((M_[0, k] - msg.pose.position.x)**2 + (M_[1, k] - msg.pose.position.y)**2)
     if d <= 3.0:
-      s = 'Tag ' + str(k) + ' detected!\n---\n'
-      f_tag_detection_.write(s)
-      print s
+      if "True" in flag_:
+	s = 'Tag ' + str(k) + ' detected!\n---\n'
+	f_tag_detection_.seek(0, 2)
+	f_tag_detection_.write(s)
+	print s
 
       
 def write2files(msg):
@@ -108,6 +110,6 @@ if __name__ == '__main__':
   rospy.init_node('fake_RFID_tags_detection_node')
   define_fake_RFID_tags()
   rospy.Subscriber('/posture', PoseStamped, check_if_RFID_tag_is_detected)
-  #rospy.Subscriber('/write_to_files', String, write2files)
+  rospy.Subscriber('/write_to_files', String, write2files)
   rospy.spin()
   

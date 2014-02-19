@@ -37,37 +37,37 @@ def write2files(msg):
 
 def write_amclpose_to_file(msg):
     if "True" in flag_:
-	f_amcl_pose_.seek(-1, 2)
+	f_amcl_pose_.seek(0, 2)
 	s = str(msg) + '\n\n'
 	f_amcl_pose_.write(s)
     
 def write_particlecloud_to_file(msg):
     if "True" in flag_:
-	f_particlecloud_.seek(-1, 2)
+	f_particlecloud_.seek(0, 2)
 	s = str(msg) + '\n\n'
 	f_particlecloud_.write(s)
 
 def write_scan_to_file(msg):
     if "True" in flag_:
-	f_scan_.seek(-1, 2)
+	f_scan_.seek(0, 2)
 	s = str(msg) + '\n\n'
 	f_scan_.write(s)
 
 def write_pose_to_file(msg):
     if "True" in flag_:
-	f_pose_.seek(-1, 2)
+	f_pose_.seek(0, 2)
 	s = str(msg) + '\n\n'
 	f_pose_.write(s)
 
 def write_cmd_vel_to_file(msg):
     if "True" in flag_:
-	f_cmd_vel_.seek(-1, 2)
+	f_cmd_vel_.seek(0, 2)
 	s = str(msg) + '\n\n'
 	f_cmd_vel_.write(s)  
   
 def write_path_to_file(msg):
     if "True" in flag_:
-	f_path_.seek(-1, 2)
+	f_path_.seek(0, 2)
 	s = str(msg) + '\n\n'
 	f_path_.write(s)
 

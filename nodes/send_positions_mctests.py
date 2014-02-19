@@ -44,6 +44,7 @@ def send_positions():
     
     states = ['PENDING', 'ACTIVE', 'PREEMPTED', 'SUCCEEDED', 'ABORTED', 'REJECTED', 'PREEMPTING', 'RECALLING', 'RECALLED', 'LOST']
     f_action_result = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/navigation/mctests_action_results.txt', 'r')
+    f_tag_detection = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/RFID/tag_detection.txt', 'a')
     
     for line in f_action_result:
       if "Test" in line:
@@ -68,28 +69,41 @@ def send_positions():
       #speech_publish(pub_speech, 'Going to the elevator')
       f_amcl_pose_.seek(0, 2)
       f_amcl_pose_.write('\n-------- Test ' + str(i) + ' --------\n')
+      rospy.sleep(0.5)
       f_amcl_pose_.seek(0, 2)
       f_amcl_pose_.write('=== To the elevator === \n')
       f_particlecloud_.seek(0, 2)
       f_particlecloud_.write('\n-------- Test ' + str(i) + ' --------\n')
+      rospy.sleep(0.5)
       f_particlecloud_.seek(0, 2)
       f_particlecloud_.write('=== To the elevator === \n')
       f_scan_.seek(0, 2)
       f_scan_.write('\n-------- Test ' + str(i) + ' --------\n')
+      rospy.sleep(0.5)
       f_scan_.seek(0, 2)
       f_scan_.write('=== To the elevator === \n')
       f_pose_.seek(0, 2)
       f_pose_.write('\n-------- Test ' + str(i) + ' --------\n')
+      rospy.sleep(0.5)
       f_pose_.seek(0, 2)
       f_pose_.write('=== To the elevator === \n')
       f_cmd_vel_.seek(0, 2)
       f_cmd_vel_.write('\n-------- Test ' + str(i) + ' --------\n')
+      rospy.sleep(0.5)
       f_cmd_vel_.seek(0, 2)
       f_cmd_vel_.write('=== To the elevator === \n')
       f_path_.seek(0, 2)
       f_path_.write('\n-------- Test ' + str(i) + ' --------\n')
+      rospy.sleep(0.5)
       f_path_.seek(0, 2)
       f_path_.write('=== To the elevator === \n')
+      f_tag_detection.seek(0, 2)
+      f_tag_detection.write('\n-------- Test ' + str(i) + ' --------\n')
+      rospy.sleep(0.5)
+      f_tag_detection.seek(0, 2)
+      f_tag_detection.write('=== To the elevator === \n')
+      
+      rospy.sleep(1.0)
       
       pub.publish(posture_stamped)
       client.send_goal(goal)
@@ -121,6 +135,10 @@ def send_positions():
       f_cmd_vel_.write('=== To the LRM === \n')
       f_path_.seek(0, 2)
       f_path_.write('=== To the LRM === \n')
+      f_tag_detection.seek(0, 2)
+      f_tag_detection.write('=== To the LRM === \n')
+      
+      rospy.sleep(1.0)
       
       pub.publish(posture_stamped)
       client.send_goal(goal)
@@ -147,12 +165,14 @@ def send_positions():
 	      raw_input('Press enter when you do...')
 	      
     f_action_result.close()
+    f_tag_detection.close()
     f_amcl_pose_.close()
     f_particlecloud_.close()
     f_scan_.close()
     f_pose_.close()
     f_cmd_vel_.close()
     f_path_.close()
+    rospy.sleep(0.5)
     pub_flag_write2files.publish(String("Shutdown"))
     rospy.signal_shutdown('Ending Monte-Carlo tests...')
     
