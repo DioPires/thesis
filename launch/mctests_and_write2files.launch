@@ -1,7 +1,11 @@
 <launch>
 
+  <node pkg="thesis" type="fake_RFID_tags_detection.py" name="fake_RFID_tags_detection" output="screen"/>
+
   <node pkg="thesis" type="send_positions_mctests.py" name="send_positions_mctests" output="screen"/>
   
   <node pkg="thesis" type="write_msgs_to_files.py" name="write_msgs_to_files" output="screen"/>
+  
+  
 
 </launch>
