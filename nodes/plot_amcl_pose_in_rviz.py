@@ -65,7 +65,7 @@ def define_plots():
       line_y_quat = f_amcl_pose.readline()
       for k in range(0, len(line_y_quat) - 10):
 	y_quat = y_quat + line_y_quat[9 + k]
-      posture.orientation.y = float(y_quat)
+      posture.orientation.y = float(y_quat) 
       line_z_quat = f_amcl_pose.readline()
       for k in range(0, len(line_z_quat) - 10):
 	z_quat = z_quat + line_z_quat[9 + k]
