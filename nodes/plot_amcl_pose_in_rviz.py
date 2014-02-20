@@ -24,7 +24,6 @@ def define_plots():
   p.header.seq = 0
   p.header.frame_id = "map"
   seq = 0
-  limit = 25000.0
   
   count_lines = 0
   for line in f_amcl_pose:
@@ -77,18 +76,8 @@ def define_plots():
       
       # Setting additional parameters of the point, transforming it from /odom to /map and appending it to the PoseArray
       posture.position.z = 0.0
-      #pose = PoseStamped()
-      #pose_map = PoseStamped()
-      #pose.header.frame_id = "odom"
-      #pose.pose.position = posture.position
-      #pose.pose.orientation = posture.orientation
-      #pose_map = tl.transformPose("map", pose)
-      #posture.position = pose_map.pose.position
-      #posture.orientation = pose_map.pose.orientation
       p.poses.append(posture)
       print '\rProgress: ' + str(seq / float(count_lines) * 100) + '%',
-    #elif seq == int(limit):
-    #  break
       
   pub.publish(p)
   f_amcl_pose.close()
