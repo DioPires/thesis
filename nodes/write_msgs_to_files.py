@@ -77,7 +77,7 @@ if __name__ == '__main__':
   rospy.Subscriber('/amcl_pose', PoseWithCovarianceStamped, write_amclpose_to_file)
   rospy.Subscriber('/particlecloud', PoseArray, write_particlecloud_to_file)
   rospy.Subscriber('/scan', LaserScan, write_scan_to_file)
-  rospy.Subscriber('/pose', Odometry, write_pose_to_file)
+  rospy.Subscriber('/odom', Odometry, write_pose_to_file)
   rospy.Subscriber('/cmd_vel', Twist, write_cmd_vel_to_file)
   rospy.Subscriber('/move_base/TrajectoryPlannerROS/global_plan', Path, write_path_to_file)
   rospy.spin()

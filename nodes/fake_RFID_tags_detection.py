@@ -13,12 +13,15 @@ from nav_msgs.msg import *
 from visualization_msgs.msg import *
 
 flag_ = False
+ini = 0
 M_ = 0
-f_tag_detection_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/RFID/tag_detection.txt', 'a')
+M2_ = 0
+f_tag_detection_ = open('/home/diogopires/ros_workspace/catkin_ws/src/thesis/test_result_files/RFID/tag_detection_for_manual_checking2.txt', 'a')
 
 
 def define_fake_RFID_tags():
   global M_
+  global M2_
   
   pub_tags = rospy.Publisher("tags_marker_array", MarkerArray)
   
@@ -59,15 +62,25 @@ def define_fake_RFID_tags():
   M_[0, 15] = 6.287
   M_[1, 15] = -9.806
   
+  M2_ = numpy.zeros(6).reshape(2, 3)
+  M2_[0, 0] = 7.7
+  M2_[1, 0] = -1.760
+  M2_[0, 1] = 10.05
+  M2_[1, 1] = -1.648
+  M2_[0, 2] = 7.7
+  M2_[1, 2] = 1.74
+  print M2_
+  
+  
   # Construction of a MarkerArray for visualization purposes
   tags = MarkerArray()
-  for k in range(0, len(M_[0])):
+  for k in range(0, len(M2_[0])):
     marker = Marker()
     marker.header.frame_id = "/map"
     #marker.id = k
     marker.type = marker.ARROW
     marker.action = marker.ADD
-    marker.pose = Pose(Point(M_[0, k], M_[1, k], 0.0), Quaternion(0.0, 0.0, 0.0, 1.0))
+    marker.pose = Pose(Point(M2_[0, k], M2_[1, k], 0.0), Quaternion(0.0, 0.0, 0.0, 1.0))
     marker.scale = Vector3(1.0, 0.1, 0.2)
     marker.color = ColorRGBA(1.0, 1.0, 0.0, 1.0)
     
@@ -87,14 +100,14 @@ def define_fake_RFID_tags():
 
 # Check if a tag is inside the detection radius (3 meters)
 def check_if_RFID_tag_is_detected(msg):
-  for k in range(0, len(M_[0])):
-    d = math.sqrt((M_[0, k] - msg.pose.position.x)**2 + (M_[1, k] - msg.pose.position.y)**2)
-    if d <= 3.0:
-      if "True" in flag_:
-	s = 'Tag ' + str(k) + ' detected!\n---\n'
-	f_tag_detection_.seek(0, 2)
-	f_tag_detection_.write(s)
-	print s
+  for k in range(0, len(M2_[0])):
+    d = math.sqrt((M2_[0, k] - msg.pose.position.x)**2 + (M2_[1, k] - msg.pose.position.y)**2)
+    if d <= 2.0:
+      #if "True" in flag_:
+      s = 'Tag ' + str(k) + ' detected!\n' + str(rospy.Time.now()) + '\n' + str(msg.pose) + '\n---\n'
+      f_tag_detection_.seek(0, 2)
+      f_tag_detection_.write(s)
+      print s
 
       
 def write2files(msg):
@@ -106,9 +119,34 @@ def write2files(msg):
     rospy.signal_shutdown('Tag detection node stopped!')
       
       
+def ini_pose_getter(msg, pub):
+  global ini
+  if ini <= 10:
+    pub.publish(msg)
+    ini += 1
+      
+      
 if __name__ == '__main__':
   rospy.init_node('fake_RFID_tags_detection_node')
+  pub_ini_pose = rospy.Publisher('/initialpose', PoseWithCovarianceStamped)
+  
+  rospy.sleep(2.0)
+  
   define_fake_RFID_tags()
+  
+  msg = PoseWithCovarianceStamped()
+  msg.header.frame_id = 'map'
+  msg.pose.pose.position.x = 0.75
+  msg.pose.pose.position.y = -0.25
+  #msg.pose.pose.position.x = 0.0
+  #msg.pose.pose.position.y =0.0
+  msg.pose.pose.orientation.x = 0
+  msg.pose.pose.orientation.y = 0
+  msg.pose.pose.orientation.z = 0
+  msg.pose.pose.orientation.w = 1
+  msg.pose.covariance = [0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.06853891945200942]
+  
+  pub_ini_pose.publish(msg)
   rospy.Subscriber('/posture', PoseStamped, check_if_RFID_tag_is_detected)
   rospy.Subscriber('/write_to_files', String, write2files)
   rospy.spin()
